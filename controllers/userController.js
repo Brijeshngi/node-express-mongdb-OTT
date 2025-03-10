@@ -326,8 +326,6 @@ export const selfDeleteUser = catchAsyncError(
   }
 );
 
-// first create APIs for practice just a CRUD
-
 // upgradeSubscription
 // contentBasedOnSubscription Description: Fetch content accessible based on user’s subscription plan.
 // resumeWatching Description: Retrieve the last watched position for a user Method: GET /api/user/watch-history/:contentId
@@ -338,3 +336,4 @@ export const selfDeleteUser = catchAsyncError(
 // create a user pool at real time watching users to know and display on live streaming
 // POST /api/auth/logout/all → Logout from all devices.
 // GET /api/auth/oauth/callback → Handle OAuth authentication callback.
+// refresh token, access token
