@@ -61,6 +61,10 @@ const schema = new mongoose.Schema({
       },
       last_login: {
         type: Date,
+        default: Date.now(),
+      },
+      activeToken: {
+        type: String,
       },
     },
   ],

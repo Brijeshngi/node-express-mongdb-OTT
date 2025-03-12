@@ -6,11 +6,13 @@ import {
   deleteUser,
   forgetPassword,
   getAllUsers,
+  getContentOnsubcriptionPlan,
   getMyProfile,
   login,
   logout,
   resetPassword,
   selfDeleteUser,
+  updateDevice,
   updateProfilePicture,
   uploadProfilePicture,
 } from "../controllers/userController.js";
@@ -33,10 +35,11 @@ router
 
 router.route("/changepassword").put(isAuthenticated, isUser, changePassword);
 router.route("/allusers").get(isAuthenticated, isAdmin, getAllUsers);
-router.route("/forgetpassword").post(isAuthenticated, isUser, forgetPassword);
+router.route("/forgetpassword").post(forgetPassword);
 
-router
-  .route("/resetpassword/:token")
-  .put(isAuthenticated, isUser, resetPassword);
+router.route("/resetpassword/:token").put(resetPassword);
 
+router.route("/getdata").get(getContentOnsubcriptionPlan);
+
+router.route("/updatedevices").put(updateDevice);
 export default router;

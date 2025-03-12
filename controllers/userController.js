@@ -9,6 +9,8 @@ import { catchAsyncError } from "../utils/catchAsyncError.js";
 import ErrorHandle from "../utils/errorHandle.js";
 import { sendToken } from "../utils/sendToken.js";
 import crypto from "crypto";
+import { Content } from "../models/Content.js";
+import { existsSync } from "fs";
 export const createUser = catchAsyncError(async (request, response, next) => {
   const { FirstName, LastName, Email, Contact, Password } = request.body;
 
@@ -54,23 +56,54 @@ export const createAdmin = catchAsyncError(async (request, response, next) => {
 });
 
 export const login = catchAsyncError(async (request, response, next) => {
-  const { Email, Password } = request.body;
+  const { Email, Password, device_id, deviceType } = request.body;
 
   if (!Email || !Password)
     return next(new ErrorHandle("Please Enter All field", 400));
 
   const user = await User.findOne({ Email }).select("+Password");
 
-  // console.log(user.Password);
-
   if (!user) return next(new ErrorHandle("Incorrect Email and Password", 401));
 
   const isMatch = await user.comparePassword(Password);
 
-  // console.log(isMatch);
   if (!isMatch)
     return next(new ErrorHandle("Incorrect Email or Password", 401));
 
+  if (user.devices.length >= 5)
+    return next(
+      new ErrorHandle("Number of devices registered limit exceeded", 403)
+    );
+
+  let devicesCheck = user.devices || [];
+  // check if device already logged in devices or not
+  let activeToken = user.getJWTToken();
+
+  console.log(devicesCheck.length);
+  console.log("Current devices:", user.devices);
+  console.log("Checking for device_id:", device_id);
+
+  // Check if the device already exists
+  const existingDeviceIndex = devicesCheck.findIndex(
+    (device) => String(device.device_id) === String(device_id)
+  );
+
+  console.log("existingDeviceIndex:", existingDeviceIndex);
+
+  if (existingDeviceIndex !== -1) {
+    // If device exists, update the token
+    user.devices[existingDeviceIndex].activeToken = activeToken;
+  } else {
+    // If device does not exist, add it safely
+    user.devices.push({
+      device_id,
+      deviceType,
+      activeToken,
+    });
+  }
+
+  user.devices = devicesCheck;
+  await user.save();
   sendToken(response, user, 200);
 });
 
@@ -326,14 +359,84 @@ export const selfDeleteUser = catchAsyncError(
   }
 );
 
-// upgradeSubscription
 // contentBasedOnSubscription Description: Fetch content accessible based on user’s subscription plan.
-// resumeWatching Description: Retrieve the last watched position for a user Method: GET /api/user/watch-history/:contentId
-// contentRecommendation Method: GET /api/user/recommendations
-// 0Auth and social login
+
+export const getContentOnsubcriptionPlan = catchAsyncError(
+  async (request, response, next) => {
+    const _id = "67cb24c799fdadc59e5c970a";
+    const userData = await User.findById(_id);
+    const planData =
+      userData.Subscriptions.subscriptionPlan.subscriptionPlanType;
+    if (!planData == "premium")
+      return next(new ErrorHandle("not allowed", 403));
+    const contentDataOnPlan = await Content.find(
+      {
+        "trailer.url": { $exists: true, $ne: null },
+      },
+      { "trailer.url": 1, _id: 0 }
+    );
+
+    response.status(200).json({
+      success: true,
+      contentDataOnPlan,
+    });
+  }
+);
+
+// POST /api/auth/logout/all → Logout from all devices.
+
+export const updateDevice = catchAsyncError(async (request, response, next) => {
+  await User.updateOne(
+    { _id: "67cb24c799fdadc59e5c970a" }, // Replace with actual user ID
+    {
+      $set: {
+        devices: [
+          {
+            device_id: "device_1",
+            deviceType: "Mobile",
+            last_login: new Date("2025-03-10T10:00:00Z"),
+          },
+          {
+            device_id: "device_2",
+            deviceType: "Laptop",
+            last_login: new Date("2025-03-09T15:30:00Z"),
+          },
+          {
+            device_id: "device_3",
+            deviceType: "Tablet",
+            last_login: new Date("2025-03-08T20:45:00Z"),
+          },
+          {
+            device_id: "device_4",
+            deviceType: "Smart TV",
+            last_login: new Date("2025-03-07T12:10:00Z"),
+          },
+          {
+            device_id: "device_5",
+            deviceType: "Gaming Console",
+            last_login: new Date("2025-03-06T18:25:00Z"),
+          },
+        ],
+      },
+    }
+  );
+
+  response.status(200).json({
+    success: true,
+  });
+});
+
+// upgradeSubscription
 // POST /api/user/subscription/cancel → Cancel subscription.
 
+// resumeWatching Description: Retrieve the last watched position for a user Method: GET /api/user/watch-history/:contentId
+// interesting
+
+// contentRecommendation Method: GET /api/user/recommendations
+
 // create a user pool at real time watching users to know and display on live streaming
-// POST /api/auth/logout/all → Logout from all devices.
+// use of in-memory
+
 // GET /api/auth/oauth/callback → Handle OAuth authentication callback.
 // refresh token, access token
+// 0Auth and social login further
