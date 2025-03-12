@@ -1,0 +1,96 @@
+### **🔥 50 Advanced MongoDB Sharding Questions for Your OTT Platform**
+
+Since your OTT platform handles **users, content, watch history, ratings, and subscriptions**, sharding is crucial for scalability and performance. These **50 questions** cover **shard keys selection, performance optimization, query distribution, balancing, chunk migration, and best practices**.
+
+---
+
+## **🔥 Sharding Strategy & Basics**
+1. What is the best shard key for the `Users` collection? (`Email`, `Username`, or `Region`?)
+2. Should `Users` be sharded based on `Email` (hashed) or `Region` (ranged)? Why?
+3. What is the best shard key for the `Content` collection? (`contentType`, `genre`, or `IMDbRating`?)
+4. How would you shard the `WatchList` collection for efficient retrieval of user-specific data?
+5. Should `Ratings` be sharded based on `ContentId` or `UserId`? Why?
+6. How do you determine if a collection should be **sharded or remain unsharded**?
+7. What are the **pros and cons** of choosing a **hashed shard key vs. ranged shard key** for `Users`?
+8. How would you shard the `Subscriptions` collection for fast **renewal tracking**?
+9. What are **zones in sharding**, and how can you use them to optimize **regional content availability**?
+10. How can **pre-splitting chunks** improve the initial performance of sharded collections?
+
+---
+
+## **🔥 Performance & Query Optimization**
+11. How would you distribute shards across **multiple regions** to optimize latency?
+12. What is the best way to **balance read-heavy and write-heavy** workloads using sharding?
+13. How does **write concern** impact the performance of a sharded cluster?
+14. How can you optimize queries to avoid **scatter-gather operations** in a sharded cluster?
+15. What strategies can you use to ensure that **sharded queries** target a **single shard** instead of all shards?
+16. How do **compound shard keys** help optimize query performance?
+17. What MongoDB commands can you use to analyze the **distribution of chunks** in a sharded collection?
+18. What is **jumbo chunk** in MongoDB sharding, and how do you fix it?
+19. How does **sharding affect indexing**, and what are best practices for indexing a sharded collection?
+20. How do you ensure that **user authentication queries (login requests)** are optimized in a sharded database?
+
+---
+
+## **🔥 Content-Based Sharding**
+21. Should content be sharded by `genres` or `contentType`? Why?
+22. How would you **shard content based on subscription plans** to optimize access control?
+23. How would you implement **regional sharding** so that users in different countries get content specific to them?
+24. What impact does sharding by `IMDbRating` have on **query performance**?
+25. What happens if the `Content` collection is **sharded incorrectly**, and how do you fix it?
+26. How do you distribute **trending content** across shards to prevent hotspots?
+27. How can **aggregation queries on content performance** be optimized in a sharded cluster?
+28. Should `Likes` and `Views` fields be **stored separately and referenced**, or kept within the `Content` collection? Why?
+29. How would you optimize the retrieval of **most-watched content per region** in a sharded cluster?
+30. How do you handle **content expiration** (i.e., removing expired content) efficiently in a sharded database?
+
+---
+
+## **🔥 User-Based Sharding**
+31. Should user accounts be **sharded by region, subscription plan, or account creation date**?
+32. How do you handle **user migrations between shards** when they change their subscription or region?
+33. How can you optimize queries that fetch **user watch history** in a sharded environment?
+34. How do you ensure that **password reset and authentication queries** remain fast in a sharded environment?
+35. How do you shard `User Ratings` so that retrieving the **most-rated content** is fast?
+36. How do you handle **inactive users** in a sharded cluster?
+37. Should **user-generated reviews** be sharded along with the user or the content? Why?
+38. How do you efficiently shard and retrieve **binge-watching patterns** for analytics?
+39. How do you distribute **frequent vs. infrequent users** across shards for better load balancing?
+40. Should `WatchList` be embedded inside `Users` or exist as a **separate sharded collection**?
+
+---
+
+## **🔥 Scaling & Administration**
+41. What MongoDB command is used to **enable sharding on a collection**?
+42. How do you **split a shard** that is becoming overloaded?
+43. What command is used to **force a chunk migration** in MongoDB?
+44. What are **balancing policies**, and how do you customize them for different workloads?
+45. How do you **move a collection from one shard to another**?
+46. How do you monitor the **current chunk distribution** across shards?
+47. How do you detect **hot shards** and rebalance them dynamically?
+48. How do you ensure **shard key selection** does not cause **uneven chunk distribution**?
+49. What is the impact of **sharding on backups** and how do you ensure data consistency?
+50. How do you test the **query performance of a sharded vs. unsharded collection**?
+
+---
+
+## **🚀 API Use Cases for Sharding**
+Each of these **sharding strategies** can be applied to real-world API use cases such as:
+
+- **User Authentication Optimization**
+  - `/api/login` → Use **hashed shard key on Email**
+- **Content Availability**
+  - `/api/trending-content/:region` → Use **sharding by region**
+- **Subscription Management**
+  - `/api/expiring-subscriptions` → Use **sharding by subscriptionExpiry**
+- **Personalized Watchlist**
+  - `/api/user-watchlist/:userId` → Use **sharding by userId**
+- **Top Content Analytics**
+  - `/api/top-content/:genre` → Use **sharding by genre**
+- **Content Discovery**
+  - `/api/content-by-subscription/:planType` → Use **sharding by subscription plan**
+
+---
+
+### **🔥 Next Steps**
+Would you like **MongoDB sharding configuration commands** for these strategies? 🚀

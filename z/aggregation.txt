@@ -1,0 +1,399 @@
+Here are 100 MongoDB Aggregation Framework questions based on your `users_data.json` schema. These questions cover filtering, grouping, sorting, lookups, projections, and advanced aggregation techniques.
+
+---
+
+### **Basic Aggregation Queries**
+1. Retrieve the total number of users in the database.
+2. Find the number of users with the role "Admin".
+3. Get the count of active and inactive users.
+4. List all users who have subscribed to the "premium" plan.
+5. Find users who have a subscription but their status is "Inactive".
+6. Retrieve the usernames of users who have watched at least one content.
+7. List all users who have rated any content.
+8. Find users who have reviewed a content piece.
+9. Get the count of users whose subscription has expired.
+10. List users who have chosen "Dark" mode as their theme preference.
+
+---
+
+### **Filtering & Projection**
+11. Retrieve all users who have an email ending with "@gmail.com".
+12. Find all users whose contact number starts with "98".
+13. Get all users who have not uploaded a profile picture.
+14. List all users who have watched more than 5 different contents.
+15. Retrieve users who have given a content rating greater than 8.
+16. Find users who have left at least one review.
+17. Retrieve users who have their last login date before 2023.
+18. Get a list of all email addresses and usernames, excluding passwords.
+19. Retrieve users whose name starts with "A".
+20. List all users who have "Sci-Fi" content in their watchlist.
+
+---
+
+### **Grouping & Counting**
+21. Count the number of users per subscription plan.
+22. Count how many users have "Hindi" as their preferred language.
+23. Find out the number of users grouped by their theme preference.
+24. Group users based on their subscription duration (monthly, quarterly, yearly).
+25. Count the number of users who have rated at least one content.
+26. Get the average number of ratings given per user.
+27. Find out the number of users who have never rated any content.
+28. Retrieve the maximum and minimum rating given by users.
+29. Find out how many users have "Inactive" accounts and an expired subscription.
+30. Count users grouped by their account status (Active, Inactive).
+
+---
+
+### **Sorting & Limiting**
+31. Retrieve the top 10 most recent registered users.
+32. Get the first 5 users who last logged in.
+33. Find the top 5 users who have watched the most content.
+34. Retrieve users sorted by the number of ratings they have given.
+35. Find users sorted by their last watched content date.
+36. Get the top 3 users who have given the highest average rating.
+37. Retrieve users sorted by the number of reviews they have written.
+38. Get the list of users sorted by subscription expiry date.
+39. Retrieve users who have rated the most content, sorted in descending order.
+40. List users who have watched the most content in the last 30 days.
+
+---
+
+### **Lookup (Joining Collections)**
+41. Retrieve each user's watchlist along with the content details.
+42. Get all users along with the details of their subscriptions.
+43. Find all users who have reviewed a content, including the content details.
+44. Get the list of users and the last watched content details.
+45. Retrieve all users along with the content they have rated.
+46. Get all users and the total duration of content they have watched.
+47. Retrieve users and the last content they added to their watchlist.
+48. Find users and their preferred language along with the number of contents watched.
+49. Get users and their most recent rating along with the content title.
+50. Retrieve users and the genres of content they have reviewed.
+
+---
+
+### **Advanced Aggregations**
+51. Find the user who has watched the highest number of unique contents.
+52. Get the total number of ratings given by all users.
+53. Find the top-rated content by average user rating.
+54. Identify users who have given a rating of 10 to at least one content.
+55. Get the average rating per user and filter out users with an average rating below 5.
+56. Find out the most commonly used language preference among users.
+57. Retrieve the average watch time per user.
+58. Find the most popular genre among users based on watch history.
+59. Get the top 5 most-watched content across all users.
+60. Retrieve users who have a subscription but have not watched any content.
+
+---
+
+### **Date & Time-Based Queries**
+61. Find all users who registered in the last 6 months.
+62. Retrieve users who last logged in within the last 7 days.
+63. Get users who have an active subscription but have not logged in for 30 days.
+64. Find users whose subscription expired in the last month.
+65. Retrieve users who have watched content in the last 24 hours.
+66. Get users who have rated content within the last week.
+67. Find users who have reviewed content in the last year.
+68. Get the average duration of content watched in the last 3 months.
+69. Retrieve the number of new users per month for the last year.
+70. Find users whose subscription will expire within the next 15 days.
+
+---
+
+### **Nested Document Queries**
+71. Find users who have watched a particular content ID.
+72. Retrieve all users who have reviewed a specific content.
+73. Get users who have a particular subscription type and duration.
+74. Find users who have given a rating to a specific content.
+75. Get users who have reviewed at least 3 different contents.
+76. Find users who have the same first and last name.
+77. Retrieve users who have rated at least one content above 8.
+78. Get users who have given a 5-star rating and also left a review.
+79. Find users who have multiple subscriptions recorded in their history.
+80. Retrieve users who have watched at least 10 contents in total.
+
+---
+
+### **Complex Multi-Stage Queries**
+81. Find users who have watched a content and then rated it.
+82. Retrieve the percentage of users who prefer "Light" theme vs. "Dark" theme.
+83. Get the top 5 most active users based on total ratings and reviews.
+84. Find users who have reviewed but never rated any content.
+85. Retrieve users who have watched content but have an inactive subscription.
+86. Identify users who have renewed their subscription at least once.
+87. Find users who have the same language preference but different theme preferences.
+88. Get the percentage of users who have rated vs. those who haven’t.
+89. Retrieve users who have never watched or rated any content.
+90. Find users who have subscribed but never logged in.
+
+---
+
+### **Miscellaneous**
+91. Retrieve the number of users who have exactly 10 contents in their watchlist.
+92. Find out the total amount of time all users have spent watching content.
+93. Identify the average subscription length for users.
+94. Find out how many users have watched content in multiple languages.
+95. Get users who have at least one expired subscription and one active one.
+96. Retrieve users who have logged in from different time zones.
+97. Find users who have rated at least one content in each genre.
+98. Retrieve users whose names contain special characters.
+99. Find users who have exactly 3 items in their watchlist.
+100. Retrieve users who have logged in at least once per day for the last 30 days.
+
+---
+Here are **50 MongoDB Aggregation Framework questions** based on your **Users** and **Content** schemas. These queries will help optimize your OTT platform APIs.
+
+---
+
+### **Basic Queries**
+1. Find the total number of users in the database.
+2. Get the count of content items available in the database.
+3. Retrieve the total number of active users.
+4. Find the number of users who have verified their email.
+5. Get the count of users with an active subscription.
+6. Find the number of unique subscription plans subscribed by users.
+7. Count the number of users with each theme preference (`Light` or `Dark`).
+8. Get the count of users grouped by their preferred language.
+9. Retrieve the total number of reviews given by users.
+10. Find the number of content pieces available for each age category (`5+`, `13+`, `18+`).
+
+---
+
+### **Filtering & Sorting**
+11. Find users who have rated at least one content.
+12. Retrieve users who have watched at least one content item.
+13. Find users who have reviewed content in the last 30 days.
+14. Retrieve the top 5 most recently registered users.
+15. Get the latest 10 content items added to the database.
+16. Find users who have watched content in `Full HD` or `4K` resolution.
+17. Retrieve content that is available in both `English` and `Hindi`.
+18. Find the top 5 most-watched content items.
+19. Get content that is DRM protected and has the `HLS` streaming protocol.
+20. Find content that is available for download and has a resolution of `HD` or higher.
+
+---
+
+### **Grouping & Aggregation**
+21. Group users by their subscription plan type and count them.
+22. Find the average rating given by all users.
+23. Get the total number of likes across all content.
+24. Find the total number of views for each content type (`movie`, `series`, etc.).
+25. Retrieve the top 3 most popular content genres based on user watch history.
+26. Find the average duration of content watched by users.
+27. Get the top 5 highest-rated content based on IMDb ratings.
+28. Calculate the average subscription duration for all users.
+29. Find the number of active and inactive users per subscription plan.
+30. Get the total number of users who have rated at least 5 different content items.
+
+---
+
+### **Lookup & Joins**
+31. Retrieve all users along with their subscription details.
+32. Get the watchlist of each user along with the content details.
+33. Find all users who have reviewed a content item, including their review text.
+34. Retrieve users along with the content they have rated.
+35. Find users and the details of their most recently watched content.
+36. Retrieve content along with the users who have watched them.
+37. Get users along with the content they have added to their watchlist.
+38. Find the number of users who have watched a specific content item.
+39. Get the top 3 most reviewed content items along with their reviews.
+40. Find all users who have watched a content item and given it a rating.
+
+---
+
+### **Complex Queries**
+41. Retrieve the top 5 most-watched content in the last 3 months.
+42. Find users whose subscription is expiring within the next 7 days.
+43. Get the percentage of users who have `Auto-renewal` enabled in their subscription.
+44. Retrieve the top 5 content items that are most liked by users.
+45. Find users who have watched content but have an inactive subscription.
+46. Get the top 5 most popular content genres among premium users.
+47. Retrieve the number of users who have never watched any content.
+48. Find users who have both a subscription and an active watch history.
+49. Retrieve the most reviewed content in the `Sci-Fi` category.
+50. Get the top 3 content items that have been rated the highest by `super` plan users.
+
+---
+
+Would you like aggregation queries for these questions as well? 🚀
+
+Here are **50 extremely complex MongoDB Aggregation Framework questions** based on **Users** and **Content** schemas, designed for real-world API use cases in your OTT platform. These cover **multi-stage aggregations, nested lookups, complex filtering, ranking, window functions, conditional operations, and more**.
+
+---
+
+## **🔥 Complex User-Based Queries**
+1. Find the **top 10 users** who have watched the highest number of unique content items, sorted by most recent login.
+2. Retrieve users who have a **watch history of over 500 hours** and have rated at least 50% of the content they watched.
+3. Identify users who have **never logged in since registering**, but have an active subscription.
+4. Get users who **renewed their subscription at least twice**, grouped by their plan type.
+5. Find users who have watched content in **multiple resolutions** (`SD`, `HD`, `Full HD`, `4K`) and list the total number of times each resolution was watched.
+6. Retrieve the top 5 users who have **highest watch time per month** for the last 6 months.
+7. Get users who have rated at least **3 movies** in each rating category (`G`, `PG`, `PG-13`, `R`, `NC-17`).
+8. Identify users who have watched at least **one content from every genre** available on the platform.
+9. Find users who **have an active subscription but haven't watched anything** in the last 60 days.
+10. Get the **monthly retention rate** of users by tracking how many renewed their subscription in the last 12 months.
+
+---
+
+## **🔥 Complex Content-Based Queries**
+11. Find the **top 5 most-watched content** based on unique viewers who watched at least **50% of its total duration**.
+12. Get the **top 3 trending content** based on a weighted score of views, likes, and ratings in the last 7 days.
+13. Retrieve content that has the **highest increase in views (by percentage) compared to the previous month**.
+14. Identify content that was **watched but never rated or reviewed** by any user.
+15. Find content that has **more dislikes than likes** (assuming a `dislikes` field exists).
+16. Find content that has been watched by users **from at least 3 different countries**.
+17. Retrieve the **least-watched content of all time**, filtered out by content that has received at least one rating.
+18. Identify **the most downloaded content per region**, using the `availability.regions` field.
+19. Get content where at least **30% of users who watched it also rated it above 8**.
+20. Find content that has **never been watched by any premium user**.
+
+---
+
+## **🔥 Complex Subscription & Revenue Queries**
+21. Find users whose **subscription expired and were reactivated after more than 3 months**.
+22. Retrieve the **total revenue per subscription plan** over the last 12 months.
+23. Identify users who **downgraded their subscription** (e.g., moved from `super` to `basic`).
+24. Get the **average subscription duration per plan** and compare the retention rate between `monthly`, `quarterly`, and `yearly` plans.
+25. Find users who have switched their subscription plan at least **three times in the last year**.
+26. Identify users who **renewed within the last 7 days of their subscription expiry**.
+27. Get the percentage of users who have **enabled auto-renewal** vs. those who manually renew.
+28. Retrieve the **number of new subscriptions per month for the last 12 months**.
+29. Identify the **top 5 subscription plans that generate the most revenue**, sorted by earnings.
+30. Find users who have a **free plan but have purchased premium content separately**.
+
+---
+
+## **🔥 Advanced Engagement Queries**
+31. Identify **power users** who have logged in at least **20 times in the last month**, watched more than 50 hours, and rated over 10 content pieces.
+32. Get the **average watch time per user per genre** and list the top 3 most-watched genres.
+33. Retrieve users who **rate content significantly lower than the average user rating** for the same content.
+34. Find the **most polarizing content**, where ratings are either **very low (< 4) or very high (> 8)**, with minimal ratings in between.
+35. Identify users who have **completely different watch preferences compared to their reviews** (e.g., they watch comedy but rate only horror content).
+36. Find users who have watched content across **multiple languages** and list the most-watched language for each user.
+37. Get users who have **never repeated a genre** in their watch history.
+38. Find the **most common watch sequence** (e.g., users who watch a thriller, then an action movie, then a drama).
+39. Identify users who only **watch but never rate or review content**.
+40. Retrieve users who have **only ever watched content on a single streaming protocol** (`HLS`, `DASH`, `RTMP`).
+
+---
+
+## **🔥 Advanced Cross-Entity Queries**
+41. Find users who have **watched content from a director but never rated or reviewed any of their works**.
+42. Retrieve content where the **average IMDb rating given by users is significantly different** from the official IMDb rating.
+43. Find the **most binge-watched series**, where users completed at least **80% of total episodes**.
+44. Get the **percentage of users who watched the entire movie vs. those who left early** (watched less than 50%).
+45. Find users who **rated the same content more than once**, indicating potential fake ratings.
+46. Retrieve the **average review length per genre** to determine which genres have the most detailed reviews.
+47. Identify users who **rated content before actually watching it** (rating timestamp < watch timestamp).
+48. Find users who have **watched an entire series within 48 hours** (binge-watching).
+49. Get the **top 3 content types (`movie`, `series`, etc.)** that have the highest engagement (views + watch time).
+50. Identify **users who only watch trailers but never the full content**.
+
+---
+
+### **🚀 API Use Cases**
+Each of these extreme aggregation queries can be converted into an API, such as:
+
+- `/api/top-users-by-watchtime`
+- `/api/trending-content`
+- `/api/users-who-downgraded`
+- `/api/most-watched-genre`
+- `/api/binge-watchers`
+- `/api/highest-revenue-subscription`
+- `/api/most-polarizing-content`
+
+Would you like me to generate actual aggregation queries for some of these scenarios? 🚀
+
+
+
+Here are **50 extremely complex real-time MongoDB Aggregation Framework questions** that you can implement as APIs in your **OTT platform**. These queries combine **multi-stage aggregations, complex joins, ranking, window functions, advanced filtering, conditional operations, and real-time analytics**.
+
+---
+
+## **🔥 Extreme User-Based Queries**
+1. Identify the **top 10 binge-watchers** in the last 30 days (users who watched entire seasons within 48 hours).
+2. Retrieve users who **watched content in multiple resolutions (SD, HD, Full HD, 4K)** and list the total watch time per resolution.
+3. Get users who have **never logged in but have an active subscription** and send them a reminder email.
+4. Find **users who rate content inconsistently** (e.g., they rate some genres 10 but others 1).
+5. Identify **inactive users** who haven’t watched anything in the last 3 months but have an **auto-renewed** subscription.
+6. Retrieve users who have watched content **exclusively from a single director**.
+7. Identify users who have **watched content but never rated or reviewed any**.
+8. Get the **average watch time per month per user** for the last 6 months.
+9. Find users who have watched **content in 3 or more different languages**.
+10. Retrieve **users who started watching a content but never completed it** (watched < 50%).
+
+---
+
+## **🔥 Extreme Content-Based Queries**
+11. Find the **top 5 trending content items** based on a weighted score of **views, likes, ratings, and recent activity**.
+12. Retrieve **content that has never been watched by premium users** but is frequently watched by free users.
+13. Identify the **most polarizing content** (ratings are either < 4 or > 8, with minimal ratings in between).
+14. Get the **most reviewed content per genre** in the last 30 days.
+15. Find the **top 3 most popular content per region** by calculating unique viewers per country.
+16. Identify content that has **a high drop-off rate** (users watch less than 25% on average).
+17. Retrieve content that has **been removed from the platform but still has user-generated reviews**.
+18. Get the **total number of content views per content type** (`movie`, `series`, `documentary`).
+19. Retrieve **content that is liked more by free users than premium users**.
+20. Identify content that has the **highest increase in watch time compared to the previous month**.
+
+---
+
+## **🔥 Extreme Subscription & Revenue Queries**
+21. Get the **average revenue per user (ARPU)** for each subscription type.
+22. Identify users who **downgraded their subscription** in the last 6 months.
+23. Retrieve users who **canceled their subscription but re-subscribed within 30 days**.
+24. Find users who have **never renewed their subscription** (only paid once).
+25. Retrieve the **total revenue generated per month** for the last 12 months.
+26. Identify the **most frequently switched subscription plans** (e.g., users who move from `Basic → Premium` vs. `Super → Free`).
+27. Get users who **only subscribe for free trials and never renew**.
+28. Find the percentage of **users who cancel within 3 days of subscribing**.
+29. Retrieve **users whose subscription expired but who still watch downloaded content**.
+30. Identify **users who have multiple active subscriptions**.
+
+---
+
+## **🔥 Extreme Engagement & Behavioral Queries**
+31. Find the **top 5 content genres watched by each subscription plan type**.
+32. Get the **average watch time per genre** and identify the **most engaging genre**.
+33. Retrieve users who have **reviewed every piece of content they have watched**.
+34. Identify the **most common watch sequences** (e.g., 80% of users who watch a thriller next watch a horror movie).
+35. Find users who **always watch trailers but never the full content**.
+36. Retrieve users who **repeat-watch the same content multiple times**.
+37. Identify **users who only watch content with an IMDb rating above 8**.
+38. Find users who have watched at least **one content from every available genre**.
+39. Retrieve users who have **never watched content from their watchlist**.
+40. Identify **users who watch only one type of content (e.g., only movies, only series, only documentaries)**.
+
+---
+
+## **🔥 Extreme Cross-Entity Queries**
+41. Find content where the **user rating is significantly different from the IMDb rating**.
+42. Retrieve the **top-rated content in the last 3 months** but exclude content that was highly rated more than 6 months ago.
+43. Identify the **most binge-watched series** (users complete all episodes in the shortest average time).
+44. Get the **average rating of content per region** and compare user preferences across locations.
+45. Retrieve content that has been watched and reviewed **but never rated**.
+46. Identify the **most disliked content per region** (based on rating < 5 and low completion rate).
+47. Retrieve **users who rate and review content before watching it**.
+48. Identify users who have watched **content from at least 5 different streaming protocols** (`HLS`, `DASH`, `RTMP`).
+49. Retrieve the **top 10 content items that are only watched on mobile devices**.
+50. Find the **percentage of content that is watched at night (8 PM - 3 AM) vs. daytime**.
+
+---
+
+### **🔥 API Use Cases for These Queries**
+Each of these **extreme aggregation queries** can be turned into **real-time APIs**, such as:
+
+- `/api/top-binge-watchers`
+- `/api/trending-content`
+- `/api/most-engaging-content`
+- `/api/cancelled-but-rejoined-users`
+- `/api/top-rated-content-per-region`
+- `/api/most-binge-watched-series`
+- `/api/users-with-highest-watch-time`
+- `/api/polarizing-content`
+- `/api/users-with-unwatched-watchlist`
+- `/api/content-with-highest-dropoff-rate`
+
+---
+
+Would you like **actual MongoDB aggregation queries** for some of these scenarios? 🚀

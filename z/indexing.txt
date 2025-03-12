@@ -1,0 +1,204 @@
+To optimize query performance on your MongoDB schema, here are **100 indexing questions** based on your `users_data.json`. These cover **single-field, compound, hashed, unique, TTL (Time-To-Live), and text indexing** to ensure efficient queries.
+
+---
+
+### **Basic Indexing**
+1. Create an index on the `Email` field for faster lookups.
+2. Create a unique index on `Email` to prevent duplicate entries.
+3. Create an index on `Contact` for quick searches by phone number.
+4. Create a compound index on `FirstName` and `LastName` for searching users by name.
+5. Create an index on `Username` for fast user lookups.
+6. Create an index on `Role` to speed up queries filtering by user role.
+7. Create an index on `AccountStatus` for filtering active/inactive users.
+8. Create a TTL index on `lockUntil` to automatically unlock accounts after the lock expires.
+9. Create a case-insensitive text index on `Username` and `Email`.
+10. Create an index on `languagePreference` to optimize queries filtering users by language.
+
+---
+
+### **Indexes for Subscription Queries**
+11. Create an index on `Subscriptions.subscriptionStatus` to quickly retrieve active users.
+12. Create an index on `Subscriptions.subscriptionPlan.subscriptionDuration` for filtering by duration.
+13. Create an index on `Subscriptions.subscriptionPlan.subscriptionPlanType` to retrieve users by plan type.
+14. Create an index on `Subscriptions.subscriptionStartDate` for sorting by start date.
+15. Create an index on `Subscriptions.subscriptionExpiry` for finding users whose subscriptions are about to expire.
+16. Create a compound index on `Subscriptions.subscriptionPlan.subscriptionPlanType` and `Subscriptions.subscriptionStatus` for filtering users on both conditions.
+17. Create an index on `Subscriptions.subscriptionExpiry` in descending order for retrieving the most recently expired subscriptions.
+18. Create an index on `Subscriptions.subscriptionStartDate` to analyze subscription trends over time.
+19. Create an index on `{ "Subscriptions.subscriptionPlan.subscriptionPlanType": 1, "Role": 1 }` to fetch users based on their plan and role.
+20. Create a TTL index on `Subscriptions.subscriptionExpiry` to automatically remove expired subscriptions.
+
+---
+
+### **Indexes for Content Browsing, Watchlist, Ratings, and Reviews**
+21. Create an index on `ContentBrowsing.ContentId` for retrieving content watched by users.
+22. Create an index on `WatchList.ContentId` to optimize retrieving a user's watchlist.
+23. Create an index on `Ratings.ContentId` for quickly accessing rated content.
+24. Create an index on `Ratings.contentRating` to allow filtering by rating.
+25. Create a compound index on `{ "Ratings.ContentId": 1, "Ratings.contentRating": -1 }` to find the highest-rated content by a user.
+26. Create an index on `Reviews.ContentId` for retrieving content that has been reviewed.
+27. Create an index on `Reviews.contentReviews` for text searches within user reviews.
+28. Create a compound index on `{ "Reviews.ContentId": 1, "Ratings.contentRating": -1 }` for finding top-rated and reviewed content.
+29. Create an index on `{ "Ratings.contentRating": -1, "Reviews.contentReviews": 1 }` to speed up combined rating and review queries.
+30. Create an index on `{ "WatchList.ContentId": 1, "Ratings.contentRating": 1 }` for checking if a user has rated content they watched.
+
+---
+
+### **Indexes for Watch History**
+31. Create an index on `watchHistory.ContentId` to retrieve users' watch history.
+32. Create an index on `watchHistory.lastWatched` for sorting by the latest watched content.
+33. Create a compound index on `{ "watchHistory.ContentId": 1, "watchHistory.watchedDuration": 1 }` for filtering by watch time.
+34. Create an index on `{ "watchHistory.lastWatched": -1 }` to retrieve recently watched content.
+35. Create an index on `{ "watchHistory.ContentId": 1, "watchHistory.lastWatched": 1 }` to optimize queries fetching both history and timestamp.
+36. Create an index on `watchHistory.watchedDuration` for retrieving content with the highest watch time.
+37. Create a compound index on `{ "watchHistory.lastWatched": -1, "watchHistory.ContentId": 1 }` for sorting by time and filtering by content.
+38. Create an index on `{ "watchHistory.ContentId": 1, "Role": 1 }` to retrieve watch history by role.
+39. Create an index on `{ "watchHistory.ContentId": 1, "Subscriptions.subscriptionStatus": 1 }` to analyze viewing patterns of active users.
+40. Create a TTL index on `watchHistory.lastWatched` to delete old watch history automatically.
+
+---
+
+### **Indexes for User Preferences**
+41. Create an index on `themePreference` to optimize theme-based filtering.
+42. Create a compound index on `{ "languagePreference": 1, "themePreference": 1 }` for filtering by language and theme.
+43. Create an index on `themePreference` with sparse indexing to avoid indexing users without this field.
+44. Create an index on `{ "languagePreference": 1, "Subscriptions.subscriptionStatus": 1 }` to analyze user language preference based on subscription.
+45. Create an index on `{ "languagePreference": 1, "watchHistory.lastWatched": -1 }` for analyzing language-based viewing trends.
+
+---
+
+### **Indexes for Login and Security**
+46. Create an index on `LastLogin` for sorting users by last login time.
+47. Create an index on `loginAttempts` for filtering users with multiple failed login attempts.
+48. Create an index on `lockUntil` for retrieving locked accounts.
+49. Create a TTL index on `lockUntil` to auto-unlock users after a specific period.
+50. Create an index on `{ "Email": 1, "loginAttempts": -1 }` to analyze frequent login failures.
+51. Create an index on `{ "Contact": 1, "isPhoneVerified": 1 }` for retrieving verified users.
+52. Create an index on `ResetPasswordToken` to speed up password reset operations.
+53. Create an index on `ResetPasswordTokenExpire` to automatically remove expired reset tokens.
+54. Create a compound index on `{ "Email": 1, "ResetPasswordToken": 1 }` to fetch users requesting password resets.
+55. Create an index on `{ "isEmailVerified": 1, "isPhoneVerified": 1 }` to filter fully verified users.
+
+---
+
+### **Text and Full-Text Search Indexes**
+56. Create a text index on `FirstName` and `LastName` for full-text name searches.
+57. Create a text index on `Reviews.contentReviews` for searching within reviews.
+58. Create a text index on `Email` to support case-insensitive searches.
+59. Create a text index on `Username` for fast searching within usernames.
+60. Create a text index on `ProfilePicture.url` to optimize searches for profile pictures.
+61. Create a text index on `{ "FirstName": "text", "LastName": "text", "Email": "text" }` for combined name and email searches.
+62. Create a wildcard index on `Subscriptions` to speed up queries filtering by any subscription field.
+
+---
+
+### **Indexes for Performance Optimization**
+63. Create an index on `{ "Email": 1, "Password": 1 }` for quick authentication.
+64. Create a compound index on `{ "Subscriptions.subscriptionPlan.subscriptionPlanType": 1, "AccountStatus": 1 }` for active user filtering.
+65. Create a hashed index on `Email` for optimizing user lookups.
+66. Create a hashed index on `Username` to optimize username-based queries.
+67. Create a hashed index on `Contact` for rapid phone number searches.
+68. Create a TTL index on `CreatedAt` for deleting old inactive accounts.
+69. Create an index on `{ "watchHistory.lastWatched": -1, "AccountStatus": 1 }` for fetching active users who watched content recently.
+70. Create a multi-key index on `WatchList.ContentId` to optimize fetching users' watchlists.
+
+---
+
+These indexing strategies will significantly improve the performance of your queries in MongoDB. Let me know if you need specific index recommendations based on your use cases! 🚀
+
+
+
+
+Here are **50 advanced MongoDB indexing questions** based on your **Users** and **Content** schemas. These questions focus on **single-field, compound, hashed, unique, TTL (Time-To-Live), wildcard, and text indexing** to optimize performance.
+
+---
+
+## **🔥 Basic Indexing Queries**
+1. Create an index on the `Email` field to improve user lookups.
+2. Create a **unique** index on `Username` to prevent duplicate usernames.
+3. Add a unique index on `Contact` to ensure no duplicate phone numbers.
+4. Create an index on `Role` to optimize queries filtering admins and users.
+5. Add a sparse index on `ProfilePicture.url` to exclude null values from indexing.
+6. Create a compound index on `{FirstName: 1, LastName: 1}` to speed up name searches.
+7. Index `isEmailVerified` to improve filtering of verified vs. unverified users.
+8. Add an index on `isPhoneVerified` for faster retrieval of verified phone numbers.
+9. Create an index on `AccountStatus` to optimize filtering active and inactive users.
+10. Create an index on `{languagePreference: 1, themePreference: 1}` to optimize UI settings queries.
+
+---
+
+## **🔥 Indexing for Subscription Optimization**
+11. Index `Subscriptions.subscriptionStatus` for filtering active/inactive users.
+12. Add an index on `{Subscriptions.subscriptionPlan.subscriptionDuration: 1}` to optimize queries by duration.
+13. Create a **compound index** on `{Subscriptions.subscriptionPlan.subscriptionPlanType: 1, Role: 1}` to filter users based on plan and role.
+14. Create a TTL (Time-To-Live) index on `Subscriptions.subscriptionExpiry` to remove expired subscriptions automatically.
+15. Add an index on `Subscriptions.subscriptionStartDate` for sorting by subscription date.
+16. Index `{Subscriptions.subscriptionPlan.subscriptionPlanType: 1, AccountStatus: 1}` for filtering active users by plan type.
+17. Create a hashed index on `Subscriptions.subscriptionPlan.subscriptionPlanType` for even query distribution.
+18. Add a partial index on `Subscriptions.subscriptionPlan.subscriptionPlanType` where `subscriptionStatus = "Active"`.
+19. Create a compound index on `{Subscriptions.subscriptionExpiry: 1, Role: 1}` to fetch expiring subscriptions by role.
+20. Index `{Subscriptions.subscriptionStartDate: 1, Subscriptions.subscriptionExpiry: 1}` for tracking renewal trends.
+
+---
+
+## **🔥 Indexing for Content Performance**
+21. Index `contentTitle` for faster content searches.
+22. Create a **text index** on `{description, keyWords}` to enable full-text search.
+23. Add a wildcard index on `genres` to optimize queries filtering multiple genres.
+24. Index `{contentType: 1, rating: 1}` for optimizing content queries based on type and age rating.
+25. Create an index on `{Director: 1}` to speed up searches for content by director.
+26. Add an index on `{IMDbRating: -1, RottenTomatoesScore: -1}` to fetch top-rated content.
+27. Create a **multi-key index** on `cast` to optimize searches by actor names.
+28. Index `{releaseDateAndYear: -1}` for sorting content by the latest release date.
+29. Add a **compound index** on `{drmProtected: 1, streamingProtocol: 1}` to optimize DRM and streaming type queries.
+30. Create an index on `{subscriptionPlan: 1}` to filter content based on subscription type.
+
+---
+
+## **🔥 Indexing for Watch History, Ratings & Reviews**
+31. Add a **multi-key index** on `watchHistory.ContentId` to speed up watch history retrieval.
+32. Index `{watchHistory.lastWatched: -1}` to quickly fetch most recently watched content.
+33. Create an index on `{Ratings.ContentId: 1, Ratings.contentRating: -1}` for ranking highest-rated content.
+34. Add an index on `{Reviews.ContentId: 1, Reviews.contentReviews: 1}` to optimize review retrieval.
+35. Create an index on `{WatchList.ContentId: 1, AccountStatus: 1}` for filtering watchlist items by active users.
+36. Index `{Ratings.contentRating: -1}` to fetch the highest-rated content efficiently.
+37. Add an index on `{Ratings.ContentId: 1, Reviews.ContentId: 1}` to optimize lookup queries that fetch ratings and reviews together.
+38. Create a **multi-key index** on `ContentBrowsing.ContentId` to optimize recently browsed content retrieval.
+39. Add a wildcard index on `WatchList` to optimize queries for dynamic watchlist searches.
+40. Index `{watchHistory.ContentId: 1, watchHistory.lastWatched: -1}` to fetch the last watched content per user.
+
+---
+
+## **🔥 Indexing for Security & Performance**
+41. Create an index on `{loginAttempts: 1}` to optimize security tracking.
+42. Add a TTL index on `{lockUntil: 1}` to automatically unlock accounts after a lock period.
+43. Create an index on `{ResetPasswordToken: 1}` to speed up password reset queries.
+44. Add a TTL index on `{ResetPasswordTokenExpire: 1}` to delete expired reset tokens automatically.
+45. Index `{LastLogin: -1}` to track the most recently active users.
+46. Create a hashed index on `Email` for **fast authentication lookups**.
+47. Add an index on `{Contact: 1, isPhoneVerified: 1}` for retrieving verified phone users.
+48. Create a **partial index** on `{AccountStatus: 1}` where `AccountStatus = "Active"` to speed up active user queries.
+49. Add a compound index on `{CreatedAt: 1, AccountStatus: 1}` to optimize filtering based on registration date and status.
+50. Index `{themePreference: 1, languagePreference: 1, Role: 1}` to optimize user UI preferences based on role.
+
+---
+
+### **🚀 API Use Cases for Indexing**
+Each index can be utilized in API routes such as:
+- `/api/get-user-profile/:email` → Uses `Email` index
+- `/api/get-recent-watchlist/:userId` → Uses `WatchList.ContentId` index
+- `/api/get-top-rated-content` → Uses `{IMDbRating, RottenTomatoesScore}` index
+- `/api/get-active-users` → Uses `{AccountStatus: "Active"}` partial index
+- `/api/get-most-reviewed-content` → Uses `{Reviews.ContentId, Reviews.contentReviews}` index
+- `/api/get-expiring-subscriptions` → Uses `Subscriptions.subscriptionExpiry` index
+- `/api/get-trending-content` → Uses `views` and `likes` indexes
+
+---
+
+These **50 indexing strategies** will significantly improve query performance for your OTT platform APIs. 🚀  
+
+Would you like me to generate **actual MongoDB index creation commands** for these?
+
+
+
+

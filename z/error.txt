@@ -1,0 +1,116 @@
+In Node.js, handling errors in a **complex and structured way** involves using the built-in `Error` class and extending it to create custom error handling mechanisms. Here's a structured approach:
+
+---
+
+### **1. Create a Custom Error Class**
+Using a custom error class provides more control and enables better debugging.
+
+```javascript
+class AppError extends Error {
+    constructor(message, statusCode, isOperational = true) {
+        super(message);
+        this.statusCode = statusCode;
+        this.isOperational = isOperational; // To distinguish between operational and programmer errors
+        Error.captureStackTrace(this, this.constructor);
+    }
+}
+```
+
+---
+
+### **2. Middleware-Based Centralized Error Handling**
+A global error handler for catching and responding to errors consistently.
+
+```javascript
+const errorHandler = (err, req, res, next) => {
+    console.error(`[ERROR]: ${err.message}, Stack: ${err.stack}`);
+
+    if (!err.statusCode) err.statusCode = 500;
+
+    res.status(err.statusCode).json({
+        status: "error",
+        message: err.message || "Internal Server Error",
+        stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
+    });
+};
+```
+
+---
+
+### **3. Using Async Error Handling with Express**
+Use `asyncHandler` to handle errors inside async functions without `try-catch` blocks everywhere.
+
+```javascript
+const asyncHandler = (fn) => (req, res, next) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+};
+```
+
+---
+
+### **4. Throwing Custom Errors in Routes**
+Using the custom `AppError` for structured error handling.
+
+```javascript
+const express = require("express");
+const app = express();
+
+app.get("/error", asyncHandler(async (req, res, next) => {
+    throw new AppError("This is a custom error", 400);
+}));
+
+app.use(errorHandler);
+
+app.listen(3000, () => console.log("Server running on port 3000"));
+```
+
+---
+
+### **5. Handling Uncaught and Unhandled Errors**
+Catch unhandled errors and log them properly.
+
+```javascript
+process.on("uncaughtException", (err) => {
+    console.error("Uncaught Exception! Shutting down...");
+    console.error(err);
+    process.exit(1); // Exit process to prevent unpredictable state
+});
+
+process.on("unhandledRejection", (reason, promise) => {
+    console.error("Unhandled Promise Rejection:", reason);
+});
+```
+
+---
+
+### **6. Logging Errors with Winston**
+Integrate logging for better error tracking.
+
+```javascript
+const winston = require("winston");
+
+const logger = winston.createLogger({
+    level: "error",
+    format: winston.format.json(),
+    transports: [
+        new winston.transports.File({ filename: "error.log", level: "error" }),
+        new winston.transports.Console({ format: winston.format.simple() }),
+    ],
+});
+
+const errorHandler = (err, req, res, next) => {
+    logger.error(`[${new Date().toISOString()}] ${err.message}`);
+    res.status(err.statusCode || 500).json({ error: err.message });
+};
+```
+
+---
+
+## **Summary**
+✅ **Custom Error Classes** (`AppError`)  
+✅ **Middleware-Based Error Handling**  
+✅ **Async Error Wrapper** (`asyncHandler`)  
+✅ **Centralized Logging with Winston**  
+✅ **Graceful Process Exit on Fatal Errors**
+
+Would you like to add more features like logging errors to a database (MongoDB/PostgreSQL)? 🚀
