@@ -10,7 +10,6 @@ import ErrorHandle from "../utils/errorHandle.js";
 import { sendToken } from "../utils/sendToken.js";
 import crypto from "crypto";
 import { Content } from "../models/Content.js";
-import { existsSync } from "fs";
 export const createUser = catchAsyncError(async (request, response, next) => {
   const { FirstName, LastName, Email, Contact, Password } = request.body;
 
@@ -54,6 +53,9 @@ export const createAdmin = catchAsyncError(async (request, response, next) => {
     message: "Your Admin profile has been created Successfully",
   });
 });
+
+// refresh token, access token
+// multi device with restricted number of device login
 
 export const login = catchAsyncError(async (request, response, next) => {
   const { Email, Password, device_id, deviceType } = request.body;
@@ -384,39 +386,14 @@ export const getContentOnsubcriptionPlan = catchAsyncError(
 );
 
 // POST /api/auth/logout/all → Logout from all devices.
+// POST /api/auth/logout/all → Logout from one device.
 
 export const updateDevice = catchAsyncError(async (request, response, next) => {
   await User.updateOne(
     { _id: "67cb24c799fdadc59e5c970a" }, // Replace with actual user ID
     {
       $set: {
-        devices: [
-          {
-            device_id: "device_1",
-            deviceType: "Mobile",
-            last_login: new Date("2025-03-10T10:00:00Z"),
-          },
-          {
-            device_id: "device_2",
-            deviceType: "Laptop",
-            last_login: new Date("2025-03-09T15:30:00Z"),
-          },
-          {
-            device_id: "device_3",
-            deviceType: "Tablet",
-            last_login: new Date("2025-03-08T20:45:00Z"),
-          },
-          {
-            device_id: "device_4",
-            deviceType: "Smart TV",
-            last_login: new Date("2025-03-07T12:10:00Z"),
-          },
-          {
-            device_id: "device_5",
-            deviceType: "Gaming Console",
-            last_login: new Date("2025-03-06T18:25:00Z"),
-          },
-        ],
+        devices: [],
       },
     }
   );
@@ -438,5 +415,4 @@ export const updateDevice = catchAsyncError(async (request, response, next) => {
 // use of in-memory
 
 // GET /api/auth/oauth/callback → Handle OAuth authentication callback.
-// refresh token, access token
 // 0Auth and social login further
