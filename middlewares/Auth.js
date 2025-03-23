@@ -18,11 +18,21 @@ export const isAuthenticated = catchAsyncError(
     next();
   }
 );
+export const checkDevice = catchAsyncError(async (request, response, next) => {
+  const device_id = "xxxxx";
+  const data = request.user.devices.filter(
+    (deviceID) => deviceID.device_id === device_id
+  );
+  console.log(data);
+  if (!(data.length == 1))
+    return next(new ErrorHandle("Please log-in Again bhai", 403));
+  next();
+});
 
 export const isAdmin = catchAsyncError(async (request, response, next) => {
   if (request.user.Role === "user")
     return next(
-      new ErrorHandle(`${request.user.FirstName}, Access Denied`, 403)
+      new ErrorHandle(`${request.user.FirstName}, Access Denied for user`, 403)
     );
   next();
 });
@@ -30,7 +40,7 @@ export const isAdmin = catchAsyncError(async (request, response, next) => {
 export const isUser = catchAsyncError(async (request, response, next) => {
   if (request.user.Role === "Admin")
     return next(
-      new ErrorHandle(`${request.user.FirstName}, Access Denied`, 403)
+      new ErrorHandle(`${request.user.FirstName}, Access Denied fir admin`, 403)
     );
   next();
 });

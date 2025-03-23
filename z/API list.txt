@@ -2,16 +2,25 @@
 
 ### **User Management APIs**
 1. How to implement user registration with email and password hashing?
-2. How to create an API for user authentication using JWT tokens?
-3. How to implement role-based access control (RBAC) in an API?
-4. How to create an API for updating user profiles?
-5. How to implement email verification using a token-based approach?
-6. How to reset a user password securely with a reset token?
-7. How to implement two-factor authentication (2FA) in user login?
-8. How to retrieve a user's profile using an API?
-9. How to list all users with pagination?
-10. How to deactivate or delete a user account?
 
+2. How to create an API for user authentication using JWT tokens?
+
+3. How to implement role-based access control (RBAC) in an API?
+
+4. How to create an API for updating user profiles?
+
+5. How to implement email verification using a token-based approach?
+
+6. How to reset a user password securely with a reset token?
+
+7. How to implement two-factor authentication (2FA) in user login?
+
+8. How to retrieve a user's profile using an API?
+
+9. How to list all users with pagination?
+
+10. How to deactivate or delete a user account?
+=====================================================================
 ### **Content Management APIs**
 11. How to create an API to upload new content (movies, series, etc.)?
 12. How to implement search functionality using text indexing?
@@ -119,7 +128,6 @@
 98. How to enable DRM (Digital Rights Management) for premium content?
 99. How to generate media previews for uploaded content?
 100. How to automate media file deletion after expiration?
-
 101. Implement caching in this project like Redis, in-memory and AWS services
 
 

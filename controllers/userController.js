@@ -10,6 +10,7 @@ import ErrorHandle from "../utils/errorHandle.js";
 import { sendToken } from "../utils/sendToken.js";
 import crypto from "crypto";
 import { Content } from "../models/Content.js";
+
 export const createUser = catchAsyncError(async (request, response, next) => {
   const { FirstName, LastName, Email, Contact, Password } = request.body;
 
@@ -72,7 +73,9 @@ export const login = catchAsyncError(async (request, response, next) => {
   if (!isMatch)
     return next(new ErrorHandle("Incorrect Email or Password", 401));
 
-  if (user.devices.length >= 5)
+  user.devices = user.devices || [];
+
+  if ((user.devices?.length || 0) >= 5)
     return next(
       new ErrorHandle("Number of devices registered limit exceeded", 403)
     );
@@ -314,25 +317,22 @@ export const resetPassword = catchAsyncError(
   }
 );
 
-export const logout = catchAsyncError(async (request, response, next) => {
-  const user = await User.findById(request.user._id);
+export const deactivateProfile = catchAsyncError(
+  async (request, response, next) => {
+    const userData = await User.findByIdAndUpdate(request.user._id);
 
-  user.LastLogin;
-  console.log(user.LastLogin);
-  user.save();
+    if (!userData) return next(new ErrorHandle("Please login again"), 403);
 
-  response
-    .status(200)
-    .cookie("token", null, {
-      expires: new Date(Date.now()),
-      httpOnly: true, // ✅ Prevents XSS attacks
-      sameSite: "strict",
-    })
-    .json({
+    userData.AccountStatus = "Inactive";
+
+    userData.save();
+
+    response.status(200).json({
       success: true,
-      message: "Logged-out successfully",
+      message: "Activated Successfully",
     });
-});
+  }
+);
 
 export const deleteUser = catchAsyncError(async (request, response, next) => {
   const { id } = request.params;
@@ -386,7 +386,75 @@ export const getContentOnsubcriptionPlan = catchAsyncError(
 );
 
 // POST /api/auth/logout/all → Logout from all devices.
+export const logoutAllDevices = catchAsyncError(
+  async (request, response, next) => {
+    const user = await User.findById(request.user._id);
+
+    user.LastLogin;
+    user.devices = null;
+    console.log(user.LastLogin);
+
+    user.save();
+
+    response
+      .status(200)
+      .cookie("token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true, // ✅ Prevents XSS attacks
+        sameSite: "strict",
+      })
+      .json({
+        success: true,
+        message: "Logged-out successfully",
+      });
+  }
+);
 // POST /api/auth/logout/all → Logout from one device.
+export const logoutFromOneDevice = catchAsyncError(
+  async (request, response, next) => {
+    const user = await User.findById(request.user._id);
+    const device_id = "lumund";
+    user.LastLogin;
+    const userDevice = user.devices.filter(
+      (deviceID) => deviceID.device_id !== device_id
+    );
+    user.devices = userDevice;
+    console.log(userDevice);
+    user.save();
+
+    response
+      .status(200)
+      .cookie("token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true, // ✅ Prevents XSS attacks
+        sameSite: "strict",
+      })
+      .json({
+        success: true,
+        message: "Logged-out successfully",
+      });
+  }
+);
+export const logout = catchAsyncError(async (request, response, next) => {
+  const user = await User.findById(request.user._id);
+
+  user.LastLogin;
+  console.log(user.LastLogin);
+
+  user.save();
+
+  response
+    .status(200)
+    .cookie("token", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true, // ✅ Prevents XSS attacks
+      sameSite: "strict",
+    })
+    .json({
+      success: true,
+      message: "Logged-out successfully",
+    });
+});
 
 export const updateDevice = catchAsyncError(async (request, response, next) => {
   await User.updateOne(
@@ -404,10 +472,16 @@ export const updateDevice = catchAsyncError(async (request, response, next) => {
 });
 
 // upgradeSubscription
+
 // POST /api/user/subscription/cancel → Cancel subscription.
 
+// pagination get all users
+
 // resumeWatching Description: Retrieve the last watched position for a user Method: GET /api/user/watch-history/:contentId
-// interesting
+
+// 12. How to implement search functionality using text indexing?
+
+// notification for subscription using mail or message
 
 // contentRecommendation Method: GET /api/user/recommendations
 
@@ -416,3 +490,18 @@ export const updateDevice = catchAsyncError(async (request, response, next) => {
 
 // GET /api/auth/oauth/callback → Handle OAuth authentication callback.
 // 0Auth and social login further
+
+// 31. How to implement an API for users to add content to their watchlist?
+// 32. How to retrieve a user's watchlist efficiently?
+// 33. How to remove content from a user's watchlist?
+// 34. How to track a user's viewing history?
+// 35. How to provide personalized recommendations based on watch history?
+// 36. How to allow users to like/dislike content?
+// 37. How to implement user-generated content ratings and reviews?
+// 38. How to fetch content with the highest user ratings?
+// 39. How to notify users about new content releases matching their preferences?
+// 40. How to enable content bookmarking and resume playback from the last watched position?
+// 63. How to prevent brute force attacks on login endpoints?
+// 69. How to revoke API tokens after user logout?
+// 70. How to prevent SQL injection and NoSQL injection attacks?
+// generates log file and update log file on every actions

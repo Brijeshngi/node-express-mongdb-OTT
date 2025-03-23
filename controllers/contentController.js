@@ -133,3 +133,16 @@ export const getAllContent = catchAsyncError(
 // GET /api/user/content/available?country=IN → Fetches content available in a user’s country.
 
 // GET /api/user/live-stream/join/:eventId → Join a live event with real-time chat support.
+
+// ### **File Management & Media APIs**
+// 91. How to upload and store media files using AWS S3 or Cloudinary?
+// 92. How to generate signed URLs for secure media access?
+// 93. How to implement video streaming APIs with chunked uploads?
+// 94. How to store and retrieve media metadata efficiently?
+// 95. How to convert and optimize video formats for different devices?
+// 96. How to implement media content access restrictions based on user subscriptions?
+// 97. How to handle large file uploads efficiently?
+// 98. How to enable DRM (Digital Rights Management) for premium content?
+// 99. How to generate media previews for uploaded content?
+// 100. How to automate media file deletion after expiration?
+// 101. Implement caching in this project like Redis, in-memory and AWS services
