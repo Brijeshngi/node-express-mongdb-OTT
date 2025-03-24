@@ -448,14 +448,42 @@ export const updateDevice = catchAsyncError(async (request, response, next) => {
 });
 
 // upgradeSubscription
+export const upgradeSubscription = catchAsyncError(
+  async (request, response, next) => {
+    const userData = await User.findById(request.user._id);
 
+    // Subscriptions: {
+    // subscriptionPlan: {
+    //   subscriptionDuration: {
+    //     type: String,
+    //     enum: ["monthly", "quarterly", "yearly"],
+    //   },
+    //   subscriptionPlanType: {
+    //     type: String,
+    //     enum: ["free", "basic", "super", "premium"],
+    //   },
+    //   },
+
+    // if ((userData.Subscriptions.subscriptionPlan.subscriptionPlanType = "free"))
+    userData.Subscriptions.subscriptionPlan.subscriptionPlanType = "basic";
+    // Subscriptions.subscriptionPlan.subscriptionPlanType ="super"
+    // Subscriptions.subscriptionPlan.subscriptionPlanType = "premium"
+
+    await userData.save();
+
+    response.status(200).json({
+      success: true,
+      message: "Upgraded Success",
+    });
+  }
+);
 // POST /api/user/subscription/cancel → Cancel subscription.
 
 // pagination get all users
 
 // resumeWatching Description: Retrieve the last watched position for a user Method: GET /api/user/watch-history/:contentId
 
-// 12. How to implement search functionality using text indexing?
+// How to implement search functionality using text indexing?
 
 // notification for subscription using mail or message
 
@@ -467,9 +495,9 @@ export const updateDevice = catchAsyncError(async (request, response, next) => {
 // GET /api/auth/oauth/callback → Handle OAuth authentication callback.
 // 0Auth and social login further
 
-// 31. How to implement an API for users to add content to their watchlist?
+//How to implement an API for users to add content to their watchlist?
 
-// 32. How to retrieve a user's watchlist efficiently?
+//How to retrieve a user's watchlist efficiently?
 
 // 33. How to remove content from a user's watchlist?
 

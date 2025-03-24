@@ -17,6 +17,7 @@ import {
   selfDeleteUser,
   updateDevice,
   updateProfilePicture,
+  upgradeSubscription,
   uploadProfilePicture,
 } from "../controllers/userController.js";
 import {
@@ -55,4 +56,7 @@ router.route("/resetpassword/:token").put(resetPassword);
 router.route("/getdata").get(getContentOnsubcriptionPlan);
 
 router.route("/updatedevices").put(updateDevice);
+
+router.route("/upgrade").put(isAuthenticated, isUser, upgradeSubscription);
+
 export default router;
