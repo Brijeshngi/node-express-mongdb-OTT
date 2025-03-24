@@ -66,7 +66,7 @@ export const login = catchAsyncError(async (request, response, next) => {
 
   const user = await User.findOne({ Email }).select("+Password");
 
-  if (!user) return next(new ErrorHandle("Incorrect Email and Password", 401));
+  if (!user) return next(new ErrorHandle("Incorrect Email or Password", 401));
 
   const isMatch = await user.comparePassword(Password);
 
@@ -81,19 +81,14 @@ export const login = catchAsyncError(async (request, response, next) => {
     );
 
   let devicesCheck = user.devices || [];
+
   // check if device already logged in devices or not
   let activeToken = user.getJWTToken();
-
-  console.log(devicesCheck.length);
-  console.log("Current devices:", user.devices);
-  console.log("Checking for device_id:", device_id);
 
   // Check if the device already exists
   const existingDeviceIndex = devicesCheck.findIndex(
     (device) => String(device.device_id) === String(device_id)
   );
-
-  console.log("existingDeviceIndex:", existingDeviceIndex);
 
   if (existingDeviceIndex !== -1) {
     // If device exists, update the token
@@ -137,7 +132,6 @@ export const uploadProfilePicture = catchAsyncError(
     const file = request.file;
     if (!file) return next(new ErrorHandle("No image found", 404));
 
-    console.log(file);
     // AWS S3 credentials
 
     const S3 = new S3Client({
@@ -148,14 +142,9 @@ export const uploadProfilePicture = catchAsyncError(
       },
     });
 
-    console.log("AWS Access Key:", process.env.AWS_ACCESS_KEY_ID);
-    console.log("AWS Secret Key:", process.env.AWS_SECRET_ACCESS_KEY);
-    console.log("AWS Region:", process.env.AWS_REGION);
-    console.log("S3 Bucket:", process.env.S3_BUCKET_NAME);
-
     const bucketName = process.env.S3_BUCKET_NAME;
     const fileName = `${Date.now()}-${request.file.originalname}`;
-    console.log("hello start");
+
     const Filexists = await User.findById(request.user._id);
     const checkfile = Filexists.ProfilePicture.url;
     if (checkfile) return next(new ErrorHandle("File Already Exists", 403));
@@ -169,16 +158,14 @@ export const uploadProfilePicture = catchAsyncError(
 
     await S3.send(new PutObjectCommand(params));
     const fileUrl = `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
-    console.log(fileUrl);
+
     let user = await User.findById(request.user._id);
-    console.log("hello");
+
     user.ProfilePicture = {
       url: fileUrl,
     };
-    console.log("hello two");
 
     await user.save();
-    console.log("hello final");
 
     response.status(200).json({ message: "File uploaded successfully", user });
   }
@@ -189,7 +176,6 @@ export const updateProfilePicture = catchAsyncError(
     const file = request.file;
     if (!file) return next(new ErrorHandle("No image found", 404));
 
-    console.log(file);
     // AWS S3 credentials
 
     const S3 = new S3Client({
@@ -202,7 +188,6 @@ export const updateProfilePicture = catchAsyncError(
 
     const bucketName = process.env.S3_BUCKET_NAME;
     const fileName = `${Date.now()}-${request.file.originalname}`;
-    console.log("hello start");
     const Filexists = await User.findById(request.user._id);
     const checkfile = Filexists.ProfilePicture.url;
 
@@ -221,16 +206,14 @@ export const updateProfilePicture = catchAsyncError(
     );
     await S3.send(new PutObjectCommand(params));
     const fileUrl = `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
-    console.log(fileUrl);
+
     let user = await User.findById(request.user._id);
-    console.log("hello");
+
     user.ProfilePicture = {
       url: fileUrl,
     };
-    console.log("hello two");
 
     await user.save();
-    console.log("hello final");
 
     response.status(200).json({ message: "File uploaded successfully", user });
   }
@@ -273,9 +256,6 @@ export const forgetPassword = catchAsyncError(
     if (!user) return next(new ErrorHandle("No user found", 404));
 
     const resetToken = await user.getResetToken();
-    console.log("Generated Token:", resetToken);
-    console.log("Hashed Token to Store:", user.ResetPasswordToken);
-    console.log("Expires At:", new Date(user.ResetPasswordTokenExpire));
 
     await user.save({ validateBeforeSave: false });
 
@@ -301,7 +281,7 @@ export const resetPassword = catchAsyncError(
         $gt: Date.now(),
       },
     });
-    console.log(user);
+
     if (!user) return next(new ErrorHandle("Token has been Expired", 401));
 
     user.Password = request.body.Password;
@@ -325,7 +305,7 @@ export const deactivateProfile = catchAsyncError(
 
     userData.AccountStatus = "Inactive";
 
-    userData.save();
+    await userData.save();
 
     response.status(200).json({
       success: true,
@@ -391,10 +371,8 @@ export const logoutAllDevices = catchAsyncError(
     const user = await User.findById(request.user._id);
 
     user.LastLogin;
-    user.devices = null;
-    console.log(user.LastLogin);
-
-    user.save();
+    user.devices = [];
+    await user.save();
 
     response
       .status(200)
@@ -419,8 +397,7 @@ export const logoutFromOneDevice = catchAsyncError(
       (deviceID) => deviceID.device_id !== device_id
     );
     user.devices = userDevice;
-    console.log(userDevice);
-    user.save();
+    await user.save();
 
     response
       .status(200)
@@ -439,7 +416,6 @@ export const logout = catchAsyncError(async (request, response, next) => {
   const user = await User.findById(request.user._id);
 
   user.LastLogin;
-  console.log(user.LastLogin);
 
   user.save();
 
@@ -492,15 +468,25 @@ export const updateDevice = catchAsyncError(async (request, response, next) => {
 // 0Auth and social login further
 
 // 31. How to implement an API for users to add content to their watchlist?
+
 // 32. How to retrieve a user's watchlist efficiently?
+
 // 33. How to remove content from a user's watchlist?
+
 // 34. How to track a user's viewing history?
+
 // 35. How to provide personalized recommendations based on watch history?
+
 // 36. How to allow users to like/dislike content?
+
 // 37. How to implement user-generated content ratings and reviews?
+
 // 38. How to fetch content with the highest user ratings?
+
 // 39. How to notify users about new content releases matching their preferences?
+
 // 40. How to enable content bookmarking and resume playback from the last watched position?
+
 // 63. How to prevent brute force attacks on login endpoints?
 // 69. How to revoke API tokens after user logout?
 // 70. How to prevent SQL injection and NoSQL injection attacks?
