@@ -89,7 +89,6 @@ export const getAllContent = catchAsyncError(
 // getContentByID
 // updatecontent
 // deletecontent
-// getContent user specific Description: Fetch content based on the user’s subscription plan.
 // streamContent Description: Validate subscription and return CloudFront URL for streaming.
 // listContentsWithPagination
 // searchContentTitle
