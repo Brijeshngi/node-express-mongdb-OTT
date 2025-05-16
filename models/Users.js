@@ -6,6 +6,7 @@ import crypto from "crypto";
 const schema = new mongoose.Schema({
   Email: {
     type: String,
+    unique: true,
     required: [true, "Please Enter your Email"],
   },
   Contact: {

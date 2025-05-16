@@ -267,5 +267,5 @@ Here are 100 real-time API scenarios based on your schemas (`Users.js` and `Cont
 100. Fetch system logs (admin only)
 
 ---
+Don't expose unnecessary endpoints. Use IP whitelisting, auth tokens, and proxies where needed.
 
-These API ideas cover everything you need for a full-fledged streaming platform. You can implement them in your project based on priority. 🚀 Let me know if you need help with implementation! 😊

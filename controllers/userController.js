@@ -150,7 +150,7 @@ export const uploadProfilePicture = catchAsyncError(
     if (checkfile) return next(new ErrorHandle("File Already Exists", 403));
     const params = {
       Bucket: bucketName,
-      Key: fileName,
+      Key: "user-data/12345/profile.jpg",
       Body: file.buffer,
       ContentType: file.mimetype,
       ACL: "public-read", // Make file publicly accessible
@@ -193,7 +193,7 @@ export const updateProfilePicture = catchAsyncError(
 
     const params = {
       Bucket: bucketName,
-      Key: fileName,
+      Key: "user-data/12345/profile.jpg",
       Body: file.buffer,
       ContentType: file.mimetype,
       ACL: "public-read", // Make file publicly accessible
